@@ -1,0 +1,62 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Add New Bus
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'add_bus' %}">
+                        {% csrf_token %}
+                        
+                        <!-- Bus Number -->
+                        <div class="form-group row">
+                            <label for="bus_number" class="col-md-4 col-form-label text-md-right">Bus Number</label>
+                            <div class="col-md-6">
+                                <input type="text" id="bus_number" name="bus_number" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <!-- Bus Type -->
+                        <div class="form-group row">
+                            <label for="bus_type" class="col-md-4 col-form-label text-md-right">Bus Type</label>
+                            <div class="col-md-6">
+                                <select id="bus_type" name="bus_type" class="form-control" required>
+                                    <option value="AC">Air Conditioned</option>
+                                    <option value="NON_AC">Non Air Conditioned</option>
+                                    <option value="SLEEPER">Sleeper</option>
+                                    <option value="SEMI_SLEEPER">Semi Sleeper</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Total Seats -->
+                        <div class="form-group row">
+                            <label for="total_seats" class="col-md-4 col-form-label text-md-right">Total Seats</label>
+                            <div class="col-md-6">
+                                <input type="number" id="total_seats" name="total_seats" class="form-control" min="10" max="60" required>
+                            </div>
+                        </div>
+
+                        <!-- Route -->
+                        <div class="form-group row">
+                            <label for="route" class="col-md-4 col-form-label text-md-right">Route</label>
+                            <div class="col-md-6">
+                                <input type="text" id="route" name="route" class="form-control" placeholder="e.g., Mumbai to Pune" required>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Add Bus
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>

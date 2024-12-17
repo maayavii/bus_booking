@@ -1,0 +1,128 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Book Seats for Bus {{ bus.bus_number }}</h2>
+    
+    <!-- Booking Form -->
+    <form method="post" class="needs-validation">
+        {% csrf_token %}
+        
+        <!-- User Information Section -->
+        <div class="form-group">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone" class="form-label">Phone Number:</label>
+            <input type="text" name="phone" id="phone" class="form-control" placeholder="Enter your phone number" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="pickup" class="form-label">Pickup Location:</label>
+            <input type="text" name="pickup" id="pickup" class="form-control" placeholder="Enter pickup location" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="drop" class="form-label">Drop Location:</label>
+            <input type="text" name="drop" id="drop" class="form-control" placeholder="Enter drop location" required>
+        </div>
+        
+        <!-- Seat Selection Section -->
+        <div class="form-group mt-4">
+            <label class="form-label">Select Seats:</label>
+            <div class="seat-container d-flex flex-wrap">
+                {% for seat in seats %}
+                    <div class="seat-wrapper m-2">
+                        <input type="checkbox" name="seats" value="{{ seat }}" id="seat{{ seat }}"
+                               class="form-check-input seat-checkbox 
+                               {% if seat in booked_seats %}seat-booked{% endif %}"
+                               {% if seat in booked_seats %}disabled{% endif %}>
+                        <label class="form-check-label seat-label" for="seat{{ seat }}">
+                            {{ seat }}
+                            {% if seat in booked_seats %}
+                                <span class="seat-status">(Booked)</span>
+                            {% endif %}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success mt-4 w-100">Confirm Booking</button>
+    </form>
+</div>
+
+<!-- Success Message -->
+<div id="success-message" class="alert alert-success mt-4 d-none" role="alert">
+    Booking successful! Redirecting...
+</div>
+
+<style>
+    /* Seat Selection Styles */
+    .seat-container {
+        max-width: 100%;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+    .seat-wrapper {
+        width: 50px;
+        text-align: center;
+    }
+    .seat-checkbox {
+        display: none;
+    }
+    .seat-label {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        background-color: #e0f7fa;
+        border: 2px solid #00796b;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .seat-checkbox:checked + .seat-label {
+        background-color: #81c784;
+        color: white;
+    }
+    .seat-booked + .seat-label {
+        background-color: #f44336;  /* Red for booked seats */
+        color: white;
+        cursor: not-allowed;
+    }
+    .seat-status {
+        font-size: 0.75em;
+        color: #d32f2f;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const successMessage = document.getElementById("success-message");
+        
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            
+            // Simple validation and visual feedback
+            const selectedSeats = Array.from(document.querySelectorAll("input[name='seats']:checked"));
+            if (selectedSeats.length === 0) {
+                alert("Please select at least one seat.");
+                return;
+            }
+
+            // Simulate success message
+            successMessage.classList.remove("d-none");
+            setTimeout(() => {
+                successMessage.classList.add("d-none");
+                form.submit();
+            }, 2000);
+        });
+    });
+</script>
+{% endblock %}

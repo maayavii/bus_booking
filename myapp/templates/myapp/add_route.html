@@ -1,0 +1,98 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Add New Bus Route</h2>
+   
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    
+                    {% if field.name == 'source_name' or field.name == 'destination_name' %}
+                        <div class="input-group">
+                            <input 
+                                type="text" 
+                                name="{{ field.name }}" 
+                                id="{{ field.id_for_label }}" 
+                                class="form-control stop-autocomplete" 
+                                value="{{ field.value|default_if_none:'' }}"
+                                list="stopsList"
+                            >
+                            
+                            {% if field.help_text %}
+                                <span class="input-group-text" title="{{ field.help_text }}">
+                                    <i class="bi bi-info-circle"></i>
+                                </span>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                    
+                    {% if field.errors %}
+                        <div class="text-danger">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Datalist for stop autocomplete -->
+        <datalist id="stopsList">
+            {% for stop in all_stops %}
+                <option value="{{ stop }}">
+            {% endfor %}
+        </datalist>
+
+        <hr>
+        <h4>Add Stops</h4>
+        <div id="stop-fields">
+            <div class="stop-field mb-3">
+                <label for="stop_name_1" class="form-label">Stop Name</label>
+                <input type="text" name="stops[0][stop_name]" id="stop_name_1" class="form-control">
+               
+                <label for="stop_order_1" class="form-label mt-2">Order</label>
+                <input type="number" name="stops[0][order]" id="stop_order_1" class="form-control" min="1">
+            </div>
+        </div>
+       
+        <button type="button" class="btn btn-secondary mt-3" id="add-stop">Add Another Stop</button>
+        <button type="submit" class="btn btn-primary mt-3">Add Route</button>
+        <a href="{% url 'myapp:dashboard' %}" class="btn btn-secondary mt-3">Cancel</a>
+    </form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const stopFieldsContainer = document.getElementById('stop-fields');
+        const addStopButton = document.getElementById('add-stop');
+        let stopCount = 1;
+        
+        // Dynamic stop addition
+        addStopButton.addEventListener('click', function () {
+            stopCount++;
+            const stopField = document.createElement('div');
+            stopField.classList.add('stop-field', 'mb-3');
+            stopField.innerHTML = `
+                <label for="stop_name_${stopCount}" class="form-label">Stop Name</label>
+                <input type="text" name="stops[${stopCount}][stop_name]" id="stop_name_${stopCount}" class="form-control">
+               
+                <label for="stop_order_${stopCount}" class="form-label mt-2">Order</label>
+                <input type="number" name="stops[${stopCount}][order]" id="stop_order_${stopCount}" class="form-control" min="1">
+            `;
+            stopFieldsContainer.appendChild(stopField);
+        });
+    });
+</script>
+{% endblock %}

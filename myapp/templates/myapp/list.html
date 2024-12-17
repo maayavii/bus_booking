@@ -1,0 +1,42 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Available Buses</h2>
+    <div class="row">
+        {% for bus in bus_list %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h5>{{ bus.bus_number }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="font-weight-bold">Route:</p>
+                        <p>{{ bus.route.route_name }}</p>
+                        
+                        <p class="font-weight-bold">From:</p>
+                        <p>{{ bus.route.source }} to {{ bus.route.destination }}</p>
+                        
+                        <p class="font-weight-bold">Departure:</p>
+                        <p>{{ bus.departure_date }} at {{ bus.departure_time }}</p>
+                        
+                        <p class="font-weight-bold">Available Seats:</p>
+                        <p>{{ bus.available_seats }}</p>
+                        
+                        <p class="font-weight-bold">Amenities:</p>
+                        <p>
+                            {% for amenity in bus.amenities %}
+                                <span class="badge bg-secondary">{{ amenity }}</span>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'myapp:book_seats' bus.id %}" class="btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">No buses found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

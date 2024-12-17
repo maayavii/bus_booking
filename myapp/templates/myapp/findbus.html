@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Bus</title>
+    <style>
+        /* Overall page background */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8f4; /* Light greenish background */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Form container style */
+        .find-bus-form {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff; /* White background for form */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form heading style */
+        .find-bus-form h2 {
+            text-align: center;
+            font-size: 28px;
+            color: #2d6a4f; /* Dark green */
+            margin-bottom: 20px;
+        }
+
+        /* Form group styles */
+        .find-bus-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Label style */
+        .find-bus-form label {
+            font-size: 18px;
+            color: #3b8c6d; /* Soft greenish color */
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Input, Select, and Textarea style */
+        .find-bus-form .form-control {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #b6d7b9; /* Light greenish border */
+            border-radius: 8px;
+            background-color: #f7faf7; /* Very light green background */
+            color: #3b8c6d; /* Green text color */
+        }
+
+        .find-bus-form .form-control:focus {
+            border-color: #65a30d; /* Darker green for focus state */
+            outline: none;
+            box-shadow: 0 0 5px rgba(101, 163, 13, 0.5);
+        }
+
+        /* Button style */
+        .find-bus-form .btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #22bddf; /* Green background for button */
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .find-bus-form .btn:hover {
+            background-color: #5c93f8; /* Darker green on hover */
+        }
+
+        /* Error message style */
+        .error {
+            color: red;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 600px) {
+            .find-bus-form {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .find-bus-form h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <form method="POST" action="{% url 'myapp:findbus' %}" class="find-bus-form">
+        {% csrf_token %}
+        
+        <h2>Find Your Bus</h2>
+
+        <div class="form-group">
+            <label for="source">Source:</label>
+            <select name="source" id="source" class="form-control">
+                {% for src in sources %}
+                    <option value="{{ src }}" {% if src == request.POST.source %}selected{% endif %}>{{ src }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <select name="destination" id="destination" class="form-control">
+                {% for dest in destinations %}
+                    <option value="{{ dest }}" {% if dest == request.POST.destination %}selected{% endif %}>{{ dest }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="departure_date">Departure Date:</label>
+            <input type="date" name="departure_date" id="departure_date" class="form-control" value="{{ request.POST.departure_date|default:'' }}">
+        </div>
+        
+        <button type="submit" class="btn">Find Buses</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+</body>
+</html>

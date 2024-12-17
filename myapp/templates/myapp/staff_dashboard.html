@@ -1,0 +1,67 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>Staff Profile</h4>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Profile Picture">
+                    </div>
+                    <h5 class="text-center">{{ user.name }}</h5>
+                    <p class="text-center text-muted">Staff Member</p>
+                    <hr>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Manage Buses</li>
+                        <li class="list-group-item">Route Management</li>
+                        <li class="list-group-item">Booking Reports</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>Staff Dashboard</h4>
+                </div>
+                <div class="card-body">
+                    <h5>Welcome, Staff Member {{ user.name }}!</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card text-center mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Add Bus</h5>
+                                    <p class="card-text">Register new buses to the system</p>
+                                    <a href="{% url 'add_bus' %}" class="btn btn-primary">Add Bus</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Manage Routes</h5>
+                                    <p class="card-text">Create and modify bus routes</p>
+                                    <a href="#" class="btn btn-primary">Manage Routes</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Booking Reports</h5>
+                                    <p class="card-text">View booking statistics</p>
+                                    <a href="#" class="btn btn-primary">View Reports</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

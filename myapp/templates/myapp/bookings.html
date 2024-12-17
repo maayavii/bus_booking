@@ -1,0 +1,73 @@
+{% extends 'myapp/base.html' %}
+
+ {% block content %}
+<div class="bookings-container">
+
+    <style >.booking-row.booked {
+        background-color: red;
+    }
+    
+    .booking-row.cancelled {
+        background-color: green;
+    }</style>
+
+
+                   
+
+                       
+                        <div class="container mt-4">
+                            <h2>My Bookings</h2>
+                            
+                            {% if book_list %}
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td>BOOKING ID</td>
+                                            <td>USER NAME</td>
+                                            <td>BUS NAME</td>
+                                            <td>SOURCE</td>
+                                            <td>DESTINATION</td>
+                                            <td>NUM OF SEATS</td>
+                                            <td>PRICE</td>
+                                            <td>DATE</td>
+                                            <td>TIME</td>
+                                            <td>STATUS</td>
+                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for row in book_list %}
+                                            <tr>
+                                                <td>{{row.id}}</td>
+                                                <td>{{row.name}}</td>
+                                                <td>{{row.bus}}</td>
+                                                <td>{{row.source}}</td>
+                                                <td>{{row.destination}}</td>
+                                                <td>{{row.num_seats}}</td>
+                                                <td>{{row.price}}</td>
+                                                <td>{{row.travel_date}}</td>
+                                                <td>{{row.travel_time}}</td>
+                                                <td>{{row.status}}</td>
+                                                <td>
+                                                    <form method="POST" action="{% url 'myapp:cancellings' %}" class="d-inline">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="bus_id" value="{{ booking.id }}">
+                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this booking?');">
+                                                            Cancel Booking
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <div class="alert alert-info">
+                                    <p>No current bookings found.</p>
+                                    {% if show_find_bus %}
+                                        <a href="{% url 'findbus' %}" class="btn btn-primary">Find a Bus</a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% endblock %}

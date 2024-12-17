@@ -1,0 +1,100 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .features-preview {
+        background-color: #f4f4f4;
+        padding: 3rem 2rem;
+        text-align: center;
+    }
+
+    .feature-card {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-bottom: 1rem;
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #28a745;
+    }
+
+    .cta-buttons {
+        margin-top: 2rem;
+    }
+
+    .cta-buttons .btn {
+        margin: 0 0.5rem;
+    }
+</style>
+
+<div class="hero-section">
+    <div class="hero-content container">
+        <h1 class="hero-title">Bus Reservation System</h1>
+        <p class="hero-subtitle">
+            Convenient, Reliable, and Efficient Travel Booking at Your Fingertips
+        </p>
+        <div class="cta-buttons">
+            <a href="{% url 'myapp:findbus' %}" class="btn btn-light">Book a Ticket</a>
+            <a href="#" class="btn btn-outline-light">View Schedules</a>
+        </div>
+    </div>
+</div>
+
+<div class="features-preview container">
+    <h2 class="mb-4">Why Choose Our Bus Reservation System?</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">🕒</div>
+                <h3>Easy Booking</h3>
+                <p>Quick and simple ticket booking process in just a few clicks.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Secure Payments</h3>
+                <p>Safe and secure online payment methods for your peace of mind.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">📍</div>
+                <h3>Real-time Tracking</h3>
+                <p>Track your bus location and get real-time updates.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
